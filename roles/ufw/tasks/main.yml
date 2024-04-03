@@ -1,0 +1,33 @@
+# see https://docs.docker.com/network/packet-filtering-firewalls/#docker-and-ufw
+
+- name: enable UFW
+  tags:
+    - ufw
+  become: true
+  community.general.ufw:
+    state: enabled
+
+- name: default deny incoming connections
+  tags:
+    - ufw
+  become: true
+  community.general.ufw:
+    default: deny
+    direction: incoming
+
+- name: default allow outgoing connections
+  tags:
+    - ufw
+  become: true
+  community.general.ufw:
+    default: allow
+    direction: outgoing
+
+- name: allow ssh
+  tags:
+    - ufw
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: '22'
+    proto: tcp

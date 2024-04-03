@@ -1,0 +1,14 @@
+
+- name: apt update
+  tags:
+    - system_upgrade
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: apt upgrade
+  tags:
+    - system_upgrade
+  become: true
+  ansible.builtin.apt:
+    state: latest

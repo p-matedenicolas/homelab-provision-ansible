@@ -1,0 +1,19 @@
+- name: make sure storage exists
+  tags:
+    - storage
+  become: true
+  ansible.builtin.file:
+    path: "{{ storage }}"
+    state: directory
+    mode: '0755'
+
+- name: mount and bind storage
+  tags:
+    - storage
+  become: true
+  ansible.posix.mount:
+    path: "{{ storage_mount }}"
+    src: "{{ storage }}"
+    opts: bind
+    state: mounted
+    fstype: none

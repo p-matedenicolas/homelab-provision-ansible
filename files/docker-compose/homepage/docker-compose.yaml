@@ -1,0 +1,21 @@
+
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    networks:
+      - proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - homepage_data:/app/config
+    restart: unless-stopped
+    labels:
+      - "traefik.http.routers.homepage.rule=Host(`server1.dev.home.local`)"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+
+networks:
+  proxy:
+    name: proxy
+    external: true
+
+volumes:
+  homepage_data:

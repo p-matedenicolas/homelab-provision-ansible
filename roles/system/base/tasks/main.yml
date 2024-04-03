@@ -1,0 +1,9 @@
+
+- name: install UFW firewall
+  tags:
+    - system_base
+  become: true
+  ansible.builtin.apt:
+    name:
+      - ufw
+    state: latest

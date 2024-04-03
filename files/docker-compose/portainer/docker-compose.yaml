@@ -1,0 +1,27 @@
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    networks:
+      - proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # connect portainer to docker via socket, see https://docs.portainer.io/admin/environments/add/docker
+      - portainer_data:/data
+    restart: unless-stopped
+    command: -H unix:///var/run/docker.sock --http-enabled
+    labels:
+      - "traefik.http.routers.portainer.rule=Host(`portainer.dev.home.local`)"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - homepage.group=Management
+      - homepage.name=Portainer
+      - homepage.icon=emby.png
+      - homepage.href=http://portainer.dev.home.local/
+      - homepage.description=Portainer
+
+networks:
+  proxy:
+    name: proxy
+    external: true
+
+volumes:
+  portainer_data:

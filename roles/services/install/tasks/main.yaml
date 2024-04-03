@@ -1,0 +1,12 @@
+- set_fact:
+    services:
+      - traefik
+      - portainer
+      - homepage
+      - whoami
+
+- name: up services
+  include_tasks: service-up.yaml
+  loop: "{{ services }}"
+  loop_control:
+    loop_var: service

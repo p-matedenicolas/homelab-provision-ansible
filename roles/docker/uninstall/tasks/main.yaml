@@ -1,0 +1,5 @@
+- name: docker uninstall
+  tags: 
+    - docker_uninstall
+  become: true
+  ansible.builtin.script: docker/uninstall.sh

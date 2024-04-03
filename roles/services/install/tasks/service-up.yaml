@@ -1,0 +1,23 @@
+- name: "create {{ service }} directory"
+  tags:
+    - storage
+  become: true
+  ansible.builtin.file:
+    path: "/tmp/docker-compose/{{ service }}/"
+    state: directory
+    mode: '0755'
+
+- name: "copy {{ service }}/docker-compose.yaml file"
+  tags:
+    - services_install
+  become: true
+  ansible.builtin.copy:
+    src: "docker-compose/{{ service }}/docker-compose.yaml"
+    dest: "/tmp/docker-compose/{{ service }}/docker-compose.yaml"
+
+- name: "{{ service }} compose up"
+  tags:
+    - services_install
+  community.docker.docker_compose_v2:
+    project_src: "/tmp/docker-compose/{{ service }}/"
+    state: present

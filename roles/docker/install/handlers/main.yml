@@ -1,0 +1,7 @@
+- name: docker restart
+  tags:
+    - docker_install
+  become: true
+  ansible.builtin.service:
+    name: docker
+    state: restarted
