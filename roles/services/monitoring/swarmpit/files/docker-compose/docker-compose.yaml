@@ -1,0 +1,96 @@
+services:
+  app:
+    image: swarmpit/swarmpit:latest
+    restart: unless-stopped
+    networks:
+      - proxy
+      - swarmpit
+    environment:
+      - SWARMPIT_DB=http://db:5984
+      - SWARMPIT_INFLUXDB=http://influxdb:8086
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1024M
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+      placement:
+        constraints:
+          - node.role == manager
+
+  db:
+    image: couchdb:2.3.0
+    restart: unless-stopped
+    networks:
+      - proxy
+      - swarmpit
+    volumes:
+      - db-data:/opt/couchdb/data
+    deploy:
+      resources:
+        limits:
+          cpus: '0.30'
+          memory: 256M
+        reservations:
+          cpus: '0.15'
+          memory: 128M
+
+  influxdb:
+    image: influxdb:1.8
+    restart: unless-stopped
+    networks:
+      - proxy
+      - swarmpit
+    volumes:
+      - influx-data:/var/lib/influxdb
+    deploy:
+      resources:
+        limits:
+          cpus: '0.60'
+          memory: 512M
+        reservations:
+          cpus: '0.30'
+          memory: 128M
+
+  agent:
+    image: swarmpit/agent:latest
+    restart: unless-stopped
+    networks:
+      - proxy
+      - swarmpit
+    environment:
+      - DOCKER_API_VERSION=1.35
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    deploy:
+      mode: global
+      labels:
+        swarmpit.agent: 'true'
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 64M
+        reservations:
+          cpus: '0.05'
+          memory: 32M
+
+networks:
+  proxy:
+    external: true
+  swarmpit:
+    external: true
+
+volumes:
+  db-data:
+    driver: local
+  influx-data:
+    driver: local

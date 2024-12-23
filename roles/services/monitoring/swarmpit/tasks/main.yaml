@@ -1,0 +1,5 @@
+---
+- name: deploy swarmpit
+  tags:
+    - services_monitoring_swarmpit
+  include_tasks: "{{ orchestrator }}.yaml"

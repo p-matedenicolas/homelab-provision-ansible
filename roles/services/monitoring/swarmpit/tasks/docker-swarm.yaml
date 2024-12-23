@@ -1,0 +1,34 @@
+---
+- name: create swarmpit network
+  tags:
+    - services_monitoring_swarmpit
+  community.docker.docker_network:
+    name: swarmpit
+    driver: overlay
+    state: present
+
+- name: create swarmpit stack directory
+  tags:
+    - services_monitoring_swarmpit
+  become: true
+  ansible.builtin.file:
+    path: /opt/stacks/swarmpit
+    state: directory
+
+- name: copy swarmpit compose file
+  tags:
+    - services_monitoring_swarmpit
+  become: true
+  ansible.builtin.copy:
+    src: docker-compose/docker-compose.yaml
+    dest: /opt/stacks/swarmpit/docker-compose.yaml
+
+- name: deploy swarmpit stack
+  tags:
+    - services_monitoring_swarmpit
+  community.docker.docker_stack:
+    state: present
+    name: monitoring
+    prune: true
+    compose:
+      - /opt/stacks/swarmpit/docker-compose.yaml

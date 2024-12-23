@@ -1,0 +1,11 @@
+http:
+  routers:
+    swarmpit:
+      rule: "Host(`swarmpit.{{ base_url }}`)"
+      service: "swarmpit-service"
+
+  services:
+    swarmpit-service:
+      loadBalancer:
+        servers:
+          - url: "http://monitoring_app:8080"
