@@ -1,0 +1,8 @@
+---
+- name: "setup {{ services.monitoring }} monitoring"
+  tags:
+    - services_monitoring_setup
+  include_role:
+    name: "services/monitoring/{{ services.monitoring }}"
+  vars:
+    service: monitoring

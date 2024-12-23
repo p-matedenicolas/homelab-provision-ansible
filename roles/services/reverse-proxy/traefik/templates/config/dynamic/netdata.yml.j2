@@ -1,0 +1,11 @@
+http:
+  routers:
+    netdata:
+      rule: "Host(`netdata.{{ base_url }}`)"
+      service: "netdata-service"
+
+  services:
+    netdata-service:
+      loadBalancer:
+        servers:
+          - url: "http://monitoring_netdata:19999"

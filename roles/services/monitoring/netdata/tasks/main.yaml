@@ -1,0 +1,5 @@
+---
+- name: deploy netdata
+  tags:
+    - services_monitoring_netdata
+  include_tasks: "{{ orchestrator }}.yaml"

@@ -10,3 +10,9 @@
     - services_setup
   include_role:
     name: services/dns/setup
+
+- name: setup monitoring
+  tags:
+    - services_setup
+  include_role:
+    name: services/monitoring/setup
