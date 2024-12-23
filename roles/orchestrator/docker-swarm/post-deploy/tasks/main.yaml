@@ -1,0 +1,9 @@
+---
+- name: prune unused resources
+  tags:
+    - orchestrator_docker-swarm_post-deploy
+  community.docker.docker_prune:
+    images: true
+    containers: true
+    volumes: true
+    networks: true

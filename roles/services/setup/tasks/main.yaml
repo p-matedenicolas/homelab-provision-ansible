@@ -1,9 +1,9 @@
 ---
-- name: clean orchestrator before deploy
+- name: "{{ orchestrator }} pre deploy"
   tags:
     - services_setup
   include_role:
-    name: "orchestrator/{{ orchestrator }}/clean"
+    name: "orchestrator/{{ orchestrator }}/pre-deploy"
 
 - name: setup reverse proxy
   tags:
@@ -22,3 +22,9 @@
     - services_setup
   include_role:
     name: services/monitoring/setup
+
+- name: "{{ orchestrator }} post deploy"
+  tags:
+    - services_setup
+  include_role:
+    name: "orchestrator/{{ orchestrator }}/post-deploy"

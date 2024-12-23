@@ -1,14 +1,14 @@
 ---
 - name: list stacks in docker swarm
   tags:
-    - orchestrator_docker-swarm_clean
+    - orchestrator_docker-swarm_pre-deploy
   command: "docker stack ls --format {% raw %}{{.Name}}{% endraw %}"
   register: swarm_stacks
   changed_when: false
 
 - name: stop and remove each stack in docker swarm
   tags:
-    - orchestrator_docker-swarm_clean
+    - orchestrator_docker-swarm_pre-deploy
   community.docker.docker_stack:
     name: "{{ item }}"
     state: absent
