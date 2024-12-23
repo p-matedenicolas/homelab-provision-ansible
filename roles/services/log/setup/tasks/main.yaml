@@ -1,0 +1,8 @@
+---
+- name: "setup {{ services.log }} log"
+  tags:
+    - services_log_setup
+  include_role:
+    name: "services/log/{{ services.log }}"
+  vars:
+    service: log

@@ -1,0 +1,5 @@
+---
+- name: deploy dozzle
+  tags:
+    - services_log_dozzle
+  include_tasks: "{{ orchestrator }}.yaml"

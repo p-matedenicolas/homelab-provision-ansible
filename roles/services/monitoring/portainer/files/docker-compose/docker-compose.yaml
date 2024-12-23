@@ -3,7 +3,6 @@ services:
     image: portainer/agent:2.21.5
     restart: unless-stopped
     networks:
-      - proxy
       - portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

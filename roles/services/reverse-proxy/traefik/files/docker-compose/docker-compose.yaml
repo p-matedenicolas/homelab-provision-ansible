@@ -14,8 +14,8 @@ services:
     command:
       - "--api.insecure=true"
       - "--api.dashboard=true"
-      - "--log.level=DEBUG"
-      - "--providers.swarm=true"
+      # - "--log.level=DEBUG"
+      # - "--providers.swarm=true"
       - "--providers.file.directory=/etc/traefik/dynamic"
 
   whoami:

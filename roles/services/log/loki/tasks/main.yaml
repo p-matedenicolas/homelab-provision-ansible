@@ -1,0 +1,5 @@
+---
+- name: deploy loki
+  tags:
+    - services_log_loki
+  include_tasks: "{{ orchestrator }}.yaml"

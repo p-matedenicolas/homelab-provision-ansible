@@ -23,6 +23,12 @@
   include_role:
     name: services/monitoring/setup
 
+- name: setup log
+  tags:
+    - services_setup
+  include_role:
+    name: services/log/setup
+
 - name: "{{ orchestrator }} post deploy"
   tags:
     - services_setup

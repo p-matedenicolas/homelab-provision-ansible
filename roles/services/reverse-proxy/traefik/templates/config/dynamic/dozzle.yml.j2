@@ -1,0 +1,11 @@
+http:
+  routers:
+    dozzle:
+      rule: "Host(`dozzle.{{ base_url }}`)"
+      service: "dozzle-service"
+
+  services:
+    dozzle-service:
+      loadBalancer:
+        servers:
+          - url: "http://log_dozzle:8080"

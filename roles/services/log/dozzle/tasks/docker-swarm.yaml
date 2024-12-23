@@ -1,0 +1,34 @@
+---
+- name: create dozzle network
+  tags:
+    - services_log_dozzle
+  community.docker.docker_network:
+    name: dozzle
+    driver: overlay
+    state: present
+
+- name: create dozzle stack directory
+  tags:
+    - services_log_dozzle
+  become: true
+  ansible.builtin.file:
+    path: /opt/stacks/dozzle
+    state: directory
+
+- name: copy dozzle compose file
+  tags:
+    - services_log_dozzle
+  become: true
+  ansible.builtin.copy:
+    src: docker-compose/docker-compose.yaml
+    dest: /opt/stacks/dozzle/docker-compose.yaml
+
+- name: deploy dozzle stack
+  tags:
+    - services_log_dozzle
+  community.docker.docker_stack:
+    state: present
+    name: log
+    prune: true
+    compose:
+      - /opt/stacks/dozzle/docker-compose.yaml
