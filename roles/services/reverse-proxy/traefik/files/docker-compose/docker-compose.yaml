@@ -1,30 +1,29 @@
 services:
   traefik:
-    image: "traefik:latest"
+    image: "traefik"
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
     networks:
       - proxy
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      #- "./traefik.yml:/etc/traefik/traefik.yml" # TODO replace this and get rid of command
+      - "./dynamic:/etc/traefik/dynamic"
     restart: unless-stopped
     command:
       - "--api.insecure=true"
       - "--api.dashboard=true"
-      - "--providers.docker"
       - "--log.level=DEBUG"
-    labels:
-      # TODO replace domain with correct one
-      - traefik.http.routers.traefik.rule=Host(`traefik.dev.home.local`)
-      - traefik.http.services.traefik.loadbalancer.server.port=8080
-      - homepage.group=Infrastructure
-      - homepage.name=Traefik
-      - homepage.icon=emby.png
-      - homepage.href=http://traefik.dev.home.local/
-      - homepage.description=Traefik
+      - "--providers.swarm=true"
+      - "--providers.file.directory=/etc/traefik/dynamic"
+
+  whoami:
+    image: "traefik/whoami"
+    networks:
+      - proxy
+    restart: unless-stopped
 
 networks:
   proxy:
-    name: proxy
+    external: true

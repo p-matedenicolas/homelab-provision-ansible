@@ -1,0 +1,8 @@
+---
+- name: "setup {{ services.dns }} dns"
+  tags:
+    - services_dns_setup
+  include_role:
+    name: "services/dns/{{ services.dns }}"
+  vars:
+    service: dns

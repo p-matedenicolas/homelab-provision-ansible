@@ -1,0 +1,11 @@
+http:
+  routers:
+    traefik:
+      rule: "Host(`traefik.{{ base_url }}`)"
+      service: "traefik-service"
+
+  services:
+    traefik-service:
+      loadBalancer:
+        servers:
+          - url: "http://reverse-proxy_traefik:8080"

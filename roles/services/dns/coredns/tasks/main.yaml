@@ -1,0 +1,5 @@
+---
+- name: deploy coredns
+  tags:
+    - services_dns_coredns
+  include_tasks: "{{ orchestrator }}.yaml"

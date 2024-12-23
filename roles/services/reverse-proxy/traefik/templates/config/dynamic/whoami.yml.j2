@@ -1,0 +1,11 @@
+http:
+  routers:
+    whoami:
+      rule: "Host(`whoami.{{ base_url }}`)"
+      service: "whoami-service"
+
+  services:
+    whoami-service:
+      loadBalancer:
+        servers:
+          - url: "http://reverse-proxy_whoami:80"

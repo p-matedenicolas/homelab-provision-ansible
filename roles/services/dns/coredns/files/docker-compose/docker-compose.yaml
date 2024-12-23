@@ -1,0 +1,15 @@
+services:
+  coredns:
+    image: coredns/coredns
+    ports:
+      - "53:53/udp"  # DNS Port
+      - "53:53/tcp"  # DNS Port
+    networks:
+      - proxy
+    volumes:
+      - ./Corefile:/etc/coredns/Corefile
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true

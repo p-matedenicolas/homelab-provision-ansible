@@ -1,8 +1,60 @@
 ---
-- name: deploy traefik
+- name: create proxy network
   tags:
     - services_reverse-proxy_traefik
-  include_role:
-    name: "orchestrator/{{ orchestrator }}/deploy"
-  vars:
-    stack: docker-compose/docker-compose.yaml
+  community.docker.docker_network:
+    name: proxy
+    driver: overlay
+    state: present
+
+- name: create traefik stack directory
+  tags:
+    - services_reverse-proxy_traefik
+  become: true
+  ansible.builtin.file:
+    path: /opt/stacks/traefik
+    state: directory
+
+- name: copy traefik compose file
+  tags:
+    - services_reverse-proxy_traefik
+  become: true
+  ansible.builtin.copy:
+    src: docker-compose/docker-compose.yaml
+    dest: /opt/stacks/traefik/docker-compose.yaml
+
+- name: copy traefik static configuration
+  tags:
+    - services_reverse-proxy_traefik
+  become: true
+  ansible.builtin.copy:
+    src: config/traefik.yml
+    dest: /opt/stacks/traefik/traefik.yml
+
+- name: create traefik dynamic configuration directory
+  tags:
+    - services_reverse-proxy_traefik
+  become: true
+  ansible.builtin.file:
+    path: /opt/stacks/traefik/dynamic
+    state: directory
+
+- name: copy traefik dynamic configuration
+  tags:
+    - services_reverse-proxy_traefik
+  become: true
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "/opt/stacks/traefik/dynamic/{{ item | basename | regex_replace('\\.j2$', '') }}"
+  with_fileglob:
+    - ../templates/config/dynamic/*.j2
+
+- name: deploy traefik stack
+  tags:
+    - services_reverse-proxy_traefik
+  community.docker.docker_stack:
+    state: present
+    name: reverse-proxy
+    prune: true
+    compose:
+      - /opt/stacks/traefik/docker-compose.yaml

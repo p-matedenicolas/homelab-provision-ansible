@@ -4,6 +4,7 @@
     - docker_install
   ansible.builtin.command: docker --version
   register: docker_check
+  failed_when: false
 
 - name: clean docker before installation
   tags:
