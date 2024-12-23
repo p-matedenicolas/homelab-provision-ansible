@@ -1,4 +1,10 @@
 ---
+- name: clean orchestrator before deploy
+  tags:
+    - services_setup
+  include_role:
+    name: "orchestrator/{{ orchestrator }}/clean"
+
 - name: setup reverse proxy
   tags:
     - services_setup

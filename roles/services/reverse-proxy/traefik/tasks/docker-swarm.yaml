@@ -31,6 +31,14 @@
     src: config/traefik.yml
     dest: /opt/stacks/traefik/traefik.yml
 
+- name: clean existing traefik dynamic configuration directory
+  tags:
+    - services_reverse-proxy_traefik
+  become: true
+  ansible.builtin.file:
+    path: /opt/stacks/traefik/dynamic
+    state: absent
+
 - name: create traefik dynamic configuration directory
   tags:
     - services_reverse-proxy_traefik

@@ -1,0 +1,16 @@
+---
+- name: list stacks in docker swarm
+  tags:
+    - orchestrator_docker-swarm_clean
+  command: "docker stack ls --format {% raw %}{{.Name}}{% endraw %}"
+  register: swarm_stacks
+  changed_when: false
+
+- name: stop and remove each stack in docker swarm
+  tags:
+    - orchestrator_docker-swarm_clean
+  community.docker.docker_stack:
+    name: "{{ item }}"
+    state: absent
+  loop: "{{ swarm_stacks.stdout_lines }}"
+  when: swarm_stacks.stdout_lines | length > 0

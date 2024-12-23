@@ -1,0 +1,5 @@
+---
+- name: deploy cadvisor
+  tags:
+    - services_monitoring_cadvisor
+  include_tasks: "{{ orchestrator }}.yaml"

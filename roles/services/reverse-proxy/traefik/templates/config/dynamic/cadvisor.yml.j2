@@ -1,0 +1,11 @@
+http:
+  routers:
+    cadvisor:
+      rule: "Host(`cadvisor.{{ base_url }}`)"
+      service: "cadvisor-service"
+
+  services:
+    cadvisor-service:
+      loadBalancer:
+        servers:
+          - url: "http://monitoring_cadvisor:8080"

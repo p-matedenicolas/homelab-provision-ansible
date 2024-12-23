@@ -1,34 +1,34 @@
 ---
-- name: create corends stack directory
+- name: create coredns stack directory
   tags:
-    - services_dns_corends
+    - services_dns_coredns
   become: true
   ansible.builtin.file:
-    path: /opt/stacks/corends
+    path: /opt/stacks/coredns
     state: directory
 
-- name: copy corends compose file
+- name: copy coredns compose file
   tags:
-    - services_dns_corends
+    - services_dns_coredns
   become: true
   ansible.builtin.copy:
     src: docker-compose/docker-compose.yaml
-    dest: /opt/stacks/corends/docker-compose.yaml
+    dest: /opt/stacks/coredns/docker-compose.yaml
 
 - name: copy coredns Corefile
   tags:
-    - services_dns_corends
+    - services_dns_coredns
   become: true
   ansible.builtin.template:
     src: config/Corefile.j2
-    dest: /opt/stacks/corends/Corefile
+    dest: /opt/stacks/coredns/Corefile
 
-- name: deploy corends stack
+- name: deploy coredns stack
   tags:
-    - services_dns_corends
+    - services_dns_coredns
   community.docker.docker_stack:
     state: present
     name: dns
     prune: true
     compose:
-      - /opt/stacks/corends/docker-compose.yaml
+      - /opt/stacks/coredns/docker-compose.yaml
