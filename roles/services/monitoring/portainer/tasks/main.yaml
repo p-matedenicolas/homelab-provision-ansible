@@ -1,0 +1,5 @@
+---
+- name: deploy portainer
+  tags:
+    - services_monitoring_portainer
+  include_tasks: "{{ orchestrator }}.yaml"

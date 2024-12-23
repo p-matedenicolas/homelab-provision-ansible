@@ -1,0 +1,34 @@
+---
+- name: create portainer network
+  tags:
+    - services_monitoring_portainer
+  community.docker.docker_network:
+    name: portainer
+    driver: overlay
+    state: present
+
+- name: create portainer stack directory
+  tags:
+    - services_monitoring_portainer
+  become: true
+  ansible.builtin.file:
+    path: /opt/stacks/portainer
+    state: directory
+
+- name: copy portainer compose file
+  tags:
+    - services_monitoring_portainer
+  become: true
+  ansible.builtin.copy:
+    src: docker-compose/docker-compose.yaml
+    dest: /opt/stacks/portainer/docker-compose.yaml
+
+- name: deploy portainer stack
+  tags:
+    - services_monitoring_portainer
+  community.docker.docker_stack:
+    state: present
+    name: monitoring
+    prune: true
+    compose:
+      - /opt/stacks/portainer/docker-compose.yaml

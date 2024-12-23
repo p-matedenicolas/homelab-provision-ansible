@@ -1,0 +1,11 @@
+http:
+  routers:
+    portainer:
+      rule: "Host(`portainer.{{ base_url }}`)"
+      service: "portainer-service"
+
+  services:
+    portainer-service:
+      loadBalancer:
+        servers:
+          - url: "http://monitoring_portainer:9000"
