@@ -1,0 +1,6 @@
+---
+- name: setup container
+  tags:
+    - container_setup
+  include_role:
+    name: container/docker/install

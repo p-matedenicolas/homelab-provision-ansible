@@ -1,0 +1,10 @@
+---
+- name: configure ssh
+  tags:
+    - system_ssh
+  become: true
+  ansible.builtin.copy:
+    src: sshd_config.homelab.conf
+    dest: /etc/ssh/sshd_config.d/
+  notify:
+    - sshd restart

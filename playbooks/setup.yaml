@@ -1,0 +1,9 @@
+- hosts: server_nodes
+  roles:
+    - system/upgrade
+    - system/hostname
+    - system/ssh
+    - firewall/setup
+    - container/setup
+    - orchestrator/setup
+    - services/setup

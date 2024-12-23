@@ -1,0 +1,8 @@
+---
+- name: deploy traefik
+  tags:
+    - services_reverse-proxy_traefik
+  include_role:
+    name: "orchestrator/{{ orchestrator }}/deploy"
+  vars:
+    stack: docker-compose/docker-compose.yaml

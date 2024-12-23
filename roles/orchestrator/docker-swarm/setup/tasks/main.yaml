@@ -1,0 +1,12 @@
+---
+- name: check if swarm is already initialized
+  tags:
+    - orchestrator_docker-swarm_setup
+  command: docker info
+  register: docker_info
+
+- name: initialize docker swarm on manager Node
+  tags:
+    - orchestrator_docker-swarm_setup
+  when: "'Swarm: active' not in docker_info.stdout"
+  command: docker swarm init --advertise-addr "{{ ansible_host }}"

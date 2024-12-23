@@ -1,0 +1,30 @@
+services:
+  traefik:
+    image: "traefik:latest"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    networks:
+      - proxy
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    restart: unless-stopped
+    command:
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--providers.docker"
+      - "--log.level=DEBUG"
+    labels:
+      # TODO replace domain with correct one
+      - traefik.http.routers.traefik.rule=Host(`traefik.dev.home.local`)
+      - traefik.http.services.traefik.loadbalancer.server.port=8080
+      - homepage.group=Infrastructure
+      - homepage.name=Traefik
+      - homepage.icon=emby.png
+      - homepage.href=http://traefik.dev.home.local/
+      - homepage.description=Traefik
+
+networks:
+  proxy:
+    name: proxy

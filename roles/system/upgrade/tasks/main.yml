@@ -1,0 +1,19 @@
+---
+- name: apt update and upgrade
+  tags:
+    - system_upgrade
+  become: true
+  ansible.builtin.apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400 # one day
+
+- name: install ansible dependencies
+  tags:
+    - system_upgrade
+  become: true
+  ansible.builtin.apt:
+    name:
+      - python3-jsondiff
+      - python3-yaml
+    state: present

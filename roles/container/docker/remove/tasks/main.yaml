@@ -1,0 +1,6 @@
+---
+- name: docker remove
+  tags: 
+    - docker_remove
+  become: true
+  ansible.builtin.script: remove.sh

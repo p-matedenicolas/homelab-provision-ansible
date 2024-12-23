@@ -1,0 +1,6 @@
+---
+- name: docker clean
+  tags: 
+    - docker_clean
+  become: true
+  ansible.builtin.script: clean.sh

@@ -1,0 +1,15 @@
+---
+- name: set hostname
+  tags:
+    - system_hostname
+  become: true
+  ansible.builtin.hostname:
+    name: '{{ inventory_hostname }}'
+
+- name: set hostname for 127.0.0.1 in /etc/hosts
+  tags:
+    - system_hostname
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: '127.0.0.1 {{ inventory_hostname }}'

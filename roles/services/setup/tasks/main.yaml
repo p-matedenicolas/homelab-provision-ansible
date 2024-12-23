@@ -1,0 +1,6 @@
+---
+- name: setup reverse proxy
+  tags:
+    - services_setup
+  include_role:
+    name: services/reverse-proxy/setup

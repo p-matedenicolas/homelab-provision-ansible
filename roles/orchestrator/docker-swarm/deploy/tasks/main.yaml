@@ -1,0 +1,34 @@
+---
+- name: "create {{ service }} stack directory"
+  tags:
+    - orchestrator_docker-swarm_deploy
+  become: true
+  ansible.builtin.file:
+    path: "/opt/stacks/{{ service }}"
+    state: directory
+
+- name: "copy {{ service }} compose file"
+  tags:
+    - orchestrator_docker-swarm_deploy
+  become: true
+  copy:
+    src: "{{ stack }}"
+    dest: "/opt/stacks/{{ service }}/docker-compose.yaml"
+
+# ensure config exists or skip task
+# - name: copy config directory
+#   tags:
+#     - orchestrator_docker-swarm_deploy
+#   become: true
+#   copy:
+#     src: config
+#     dest: "/opt/stacks/{{ service }}/config"
+
+- name: "deploy {{ service }} stack"
+  tags:
+    - orchestrator_docker-swarm_deploy
+  community.docker.docker_stack:
+    state: present
+    name: "{{ service }}"
+    compose:
+      - "/opt/stacks/{{ service }}/docker-compose.yaml"

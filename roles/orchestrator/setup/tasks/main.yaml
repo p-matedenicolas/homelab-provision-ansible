@@ -1,0 +1,6 @@
+---
+- name: setup orchestrator
+  tags:
+    - orchestrator_setup
+  include_role:
+    name: "orchestrator/{{ orchestrator }}/setup"

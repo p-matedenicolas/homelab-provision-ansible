@@ -1,0 +1,5 @@
+---
+- name: deploy traefik
+  tags:
+    - services_reverse-proxy_traefik
+  include_tasks: "{{ orchestrator }}.yaml"

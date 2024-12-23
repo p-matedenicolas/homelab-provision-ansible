@@ -1,0 +1,6 @@
+---
+- name: setup firewall
+  tags:
+    - firewall_setup
+  include_role:
+    name: firewall/ufw
