@@ -1,0 +1,8 @@
+---
+- name: "setup {{ services.vcs }} version control system"
+  tags:
+    - services_vcs_setup
+  include_role:
+    name: "services/vcs/{{ services.vcs }}"
+  vars:
+    service: vcs

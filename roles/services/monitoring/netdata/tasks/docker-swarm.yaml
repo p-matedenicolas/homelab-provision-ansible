@@ -2,7 +2,6 @@
 - name: create netdata stack directory
   tags:
     - services_monitoring_netdata
-  become: true
   ansible.builtin.file:
     path: /opt/stacks/netdata
     state: directory
@@ -10,7 +9,6 @@
 - name: copy netdata compose file
   tags:
     - services_monitoring_netdata
-  become: true
   ansible.builtin.copy:
     src: docker-compose/docker-compose.yaml
     dest: /opt/stacks/netdata/docker-compose.yaml

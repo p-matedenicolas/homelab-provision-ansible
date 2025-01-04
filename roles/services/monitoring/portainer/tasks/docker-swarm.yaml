@@ -10,7 +10,6 @@
 - name: create portainer stack directory
   tags:
     - services_monitoring_portainer
-  become: true
   ansible.builtin.file:
     path: /opt/stacks/portainer
     state: directory
@@ -18,7 +17,6 @@
 - name: copy portainer compose file
   tags:
     - services_monitoring_portainer
-  become: true
   ansible.builtin.copy:
     src: docker-compose/docker-compose.yaml
     dest: /opt/stacks/portainer/docker-compose.yaml

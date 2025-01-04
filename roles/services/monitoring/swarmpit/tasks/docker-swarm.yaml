@@ -10,7 +10,6 @@
 - name: create swarmpit stack directory
   tags:
     - services_monitoring_swarmpit
-  become: true
   ansible.builtin.file:
     path: /opt/stacks/swarmpit
     state: directory
@@ -18,7 +17,6 @@
 - name: copy swarmpit compose file
   tags:
     - services_monitoring_swarmpit
-  become: true
   ansible.builtin.copy:
     src: docker-compose/docker-compose.yaml
     dest: /opt/stacks/swarmpit/docker-compose.yaml

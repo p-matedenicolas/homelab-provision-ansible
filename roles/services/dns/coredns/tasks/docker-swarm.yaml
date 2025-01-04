@@ -2,7 +2,6 @@
 - name: create coredns stack directory
   tags:
     - services_dns_coredns
-  become: true
   ansible.builtin.file:
     path: /opt/stacks/coredns
     state: directory
@@ -10,7 +9,6 @@
 - name: copy coredns compose file
   tags:
     - services_dns_coredns
-  become: true
   ansible.builtin.copy:
     src: docker-compose/docker-compose.yaml
     dest: /opt/stacks/coredns/docker-compose.yaml
@@ -18,7 +16,6 @@
 - name: copy coredns Corefile
   tags:
     - services_dns_coredns
-  become: true
   ansible.builtin.template:
     src: config/Corefile.j2
     dest: /opt/stacks/coredns/Corefile

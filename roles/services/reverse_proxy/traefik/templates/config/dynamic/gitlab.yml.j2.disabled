@@ -1,0 +1,25 @@
+http:
+  routers:
+    gitlab:
+      rule: "Host(`gitlab.{{ base_url }}`)"
+      service: "gitlab-service"
+
+  services:
+    gitlab-service:
+      loadBalancer:
+        servers:
+          - url: "http://vcs_gitlab:80"
+
+tcp:
+  routers:
+    gitlab-ssh:
+      rule: "HostSNI(`*`)" # Use `HostSNI` for TCP routers
+      service: "gitlab-ssh-service"
+      entryPoints:
+        - ssh
+
+  services:
+    gitlab-ssh-service:
+      loadBalancer:
+        servers:
+          - address: "vcs_gitlab:22"

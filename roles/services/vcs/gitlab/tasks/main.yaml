@@ -1,0 +1,5 @@
+---
+- name: deploy gitlab
+  tags:
+    - services_vcs_gitlab
+  include_tasks: "{{ orchestrator }}.yaml"

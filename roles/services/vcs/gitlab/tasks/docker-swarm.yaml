@@ -1,0 +1,31 @@
+---
+- name: create gitlab stack directory
+  tags:
+    - services_vcs_gitlab
+  ansible.builtin.file:
+    path: /opt/stacks/gitlab
+    state: directory
+
+- name: copy gitlab compose file
+  tags:
+    - services_vcs_gitlab
+  ansible.builtin.copy:
+    src: docker-compose/docker-compose.yaml
+    dest: /opt/stacks/gitlab/docker-compose.yaml
+
+- name: copy gitlab config directory
+  tags:
+    - services_vcs_gitlab
+  ansible.builtin.copy:
+    src: config
+    dest: /opt/stacks/gitlab
+
+- name: deploy gitlab stack
+  tags:
+    - services_vcs_gitlab
+  community.docker.docker_stack:
+    state: present
+    name: vcs
+    prune: true
+    compose:
+      - /opt/stacks/gitlab/docker-compose.yaml

@@ -2,7 +2,6 @@
 - name: create cadvisor stack directory
   tags:
     - services_monitoring_cadvisor
-  become: true
   ansible.builtin.file:
     path: /opt/stacks/cadvisor
     state: directory
@@ -10,7 +9,6 @@
 - name: copy cadvisor compose file
   tags:
     - services_monitoring_cadvisor
-  become: true
   ansible.builtin.copy:
     src: docker-compose/docker-compose.yaml
     dest: /opt/stacks/cadvisor/docker-compose.yaml

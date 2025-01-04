@@ -5,29 +5,14 @@
   include_role:
     name: "orchestrator/{{ orchestrator }}/pre-deploy"
 
-- name: setup reverse proxy
+- name: "setup {{ service_name }}"
   tags:
     - services_setup
   include_role:
-    name: services/reverse-proxy/setup
-
-- name: setup dns
-  tags:
-    - services_setup
-  include_role:
-    name: services/dns/setup
-
-- name: setup monitoring
-  tags:
-    - services_setup
-  include_role:
-    name: services/monitoring/setup
-
-- name: setup log
-  tags:
-    - services_setup
-  include_role:
-    name: services/log/setup
+    name: "services/{{ service_name }}/setup"
+  loop: "{{ services.keys() }}"
+  loop_control:
+    loop_var: service_name
 
 - name: "{{ orchestrator }} post deploy"
   tags:

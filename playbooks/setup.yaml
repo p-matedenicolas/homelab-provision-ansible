@@ -1,8 +1,11 @@
-- hosts: server_nodes
+---
+- name: setup server
+  hosts: server_nodes
   roles:
     - system/upgrade
     - system/hostname
     - system/ssh
+    # - system/swap # TODO make it work
     - firewall/setup
     - container/setup
     - orchestrator/setup

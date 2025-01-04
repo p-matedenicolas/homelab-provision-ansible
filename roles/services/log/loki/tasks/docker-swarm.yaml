@@ -10,7 +10,6 @@
 - name: create loki stack directory
   tags:
     - services_log_loki
-  become: true
   ansible.builtin.file:
     path: /opt/stacks/loki
     state: directory
@@ -18,7 +17,6 @@
 - name: copy loki compose file
   tags:
     - services_log_loki
-  become: true
   ansible.builtin.copy:
     src: docker-compose/docker-compose.yaml
     dest: /opt/stacks/loki/docker-compose.yaml

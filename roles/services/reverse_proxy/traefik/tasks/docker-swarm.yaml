@@ -1,7 +1,7 @@
 ---
 - name: create proxy network
   tags:
-    - services_reverse-proxy_traefik
+    - services_reverse_proxy_traefik
   community.docker.docker_network:
     name: proxy
     driver: overlay
@@ -9,60 +9,47 @@
 
 - name: create traefik stack directory
   tags:
-    - services_reverse-proxy_traefik
-  become: true
+    - services_reverse_proxy_traefik
   ansible.builtin.file:
     path: /opt/stacks/traefik
     state: directory
 
 - name: copy traefik compose file
   tags:
-    - services_reverse-proxy_traefik
-  become: true
+    - services_reverse_proxy_traefik
   ansible.builtin.copy:
     src: docker-compose/docker-compose.yaml
     dest: /opt/stacks/traefik/docker-compose.yaml
 
-- name: copy traefik static configuration
+- name: copy traefik config directory
   tags:
-    - services_reverse-proxy_traefik
-  become: true
+    - services_vcs_traefik
   ansible.builtin.copy:
-    src: config/traefik.yml
-    dest: /opt/stacks/traefik/traefik.yml
-
-- name: clean existing traefik dynamic configuration directory
-  tags:
-    - services_reverse-proxy_traefik
-  become: true
-  ansible.builtin.file:
-    path: /opt/stacks/traefik/dynamic
-    state: absent
+    src: config
+    dest: /opt/stacks/traefik
 
 - name: create traefik dynamic configuration directory
   tags:
-    - services_reverse-proxy_traefik
-  become: true
+    - services_reverse_proxy_traefik
   ansible.builtin.file:
-    path: /opt/stacks/traefik/dynamic
+    path: /opt/stacks/traefik/config/dynamic
     state: directory
 
 - name: copy traefik dynamic configuration
   tags:
-    - services_reverse-proxy_traefik
-  become: true
+    - services_reverse_proxy_traefik
   ansible.builtin.template:
     src: "{{ item }}"
-    dest: "/opt/stacks/traefik/dynamic/{{ item | basename | regex_replace('\\.j2$', '') }}"
+    dest: "/opt/stacks/traefik/config/dynamic/{{ item | basename | regex_replace('\\.j2$', '') }}"
   with_fileglob:
     - ../templates/config/dynamic/*.j2
 
 - name: deploy traefik stack
   tags:
-    - services_reverse-proxy_traefik
+    - services_reverse_proxy_traefik
   community.docker.docker_stack:
     state: present
-    name: reverse-proxy
+    name: reverse_proxy
     prune: true
     compose:
       - /opt/stacks/traefik/docker-compose.yaml

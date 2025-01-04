@@ -1,0 +1,11 @@
+---
+- name: redeploy service
+  hosts: server_nodes
+  vars_prompt:
+    - name: service_name
+      prompt: "Which service do you want to redeploy?"
+      private: no
+  tasks:
+    - name: "redeploy {{ service_name }}"
+      include_role:
+        name: "services/{{ service_name }}/setup"

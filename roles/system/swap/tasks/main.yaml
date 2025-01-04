@@ -1,0 +1,45 @@
+---
+- name: get total memory in MB
+  tags:
+    - system_swap
+  become: true
+  command: free -m | awk '/^Mem:/ {print $2}'
+  register: total_memory_mb
+  changed_when: false
+
+- name: create swap file with the same size as RAM
+  tags:
+    - system_swap
+  become: true
+  shell: |
+    swap_size={{ total_memory_mb.stdout | int }}M
+    dd if=/dev/zero of=/swapfile bs=1M count={{ total_memory_mb.stdout | int }} status=progress
+    chmod 600 /swapfile
+    mkswap /swapfile
+    swapon /swapfile
+  when: total_memory_mb.stdout is defined
+
+- name: ensure swap file is present in fstab
+  tags:
+    - system_swap
+  become: true
+  lineinfile:
+    path: /etc/fstab
+    line: '/swapfile none swap sw 0 0'
+    create: yes
+  when: total_memory_mb.stdout is defined
+
+- name: ensure swap is enabled
+  tags:
+    - system_swap
+  become: true
+  command: swapon --show
+  register: swap_status
+  changed_when: false
+
+- name: display swap status
+  tags:
+    - system_swap
+  become: true
+  debug:
+    msg: "current swap status: {{ swap_status.stdout }}"

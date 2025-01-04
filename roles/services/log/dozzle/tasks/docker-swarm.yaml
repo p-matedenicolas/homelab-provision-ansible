@@ -10,7 +10,6 @@
 - name: create dozzle stack directory
   tags:
     - services_log_dozzle
-  become: true
   ansible.builtin.file:
     path: /opt/stacks/dozzle
     state: directory
@@ -18,7 +17,6 @@
 - name: copy dozzle compose file
   tags:
     - services_log_dozzle
-  become: true
   ansible.builtin.copy:
     src: docker-compose/docker-compose.yaml
     dest: /opt/stacks/dozzle/docker-compose.yaml

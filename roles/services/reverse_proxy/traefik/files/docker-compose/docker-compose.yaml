@@ -1,0 +1,30 @@
+services:
+  traefik:
+    image: "traefik"
+    command:
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--ping=true"
+      # - "--log.level=DEBUG"
+      # - "--providers.swarm=true"
+      - "--providers.file.directory=/etc/traefik/dynamic"
+    healthcheck:
+      test: traefik healthcheck --ping
+    networks:
+      - proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      #- "./traefik.yml:/etc/traefik/traefik.yml" # TODO replace this and get rid of command
+      - "./config/dynamic:/etc/traefik/dynamic"
+
+  whoami:
+    image: "traefik/whoami"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

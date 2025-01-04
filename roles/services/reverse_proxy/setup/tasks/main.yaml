@@ -1,0 +1,8 @@
+---
+- name: "setup {{ services.reverse_proxy }} reverse proxy"
+  tags:
+    - services_reverse_proxy_setup
+  include_role:
+    name: "services/reverse_proxy/{{ services.reverse_proxy }}"
+  vars:
+    service: reverse_proxy

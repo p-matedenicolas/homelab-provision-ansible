@@ -10,7 +10,19 @@
   tags:
     - orchestrator_docker-swarm_pre-deploy
   community.docker.docker_stack:
-    name: "{{ item }}"
+    name: "{{ stack_name }}"
     state: absent
   loop: "{{ swarm_stacks.stdout_lines }}"
+  loop_control:
+    loop_var: stack_name
   when: swarm_stacks.stdout_lines | length > 0
+
+- name: create stacks directory
+  tags:
+    - orchestrator_docker-swarm_pre-deploy
+  become: true
+  ansible.builtin.file:
+    path: /opt/stacks
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
