@@ -1,19 +1,27 @@
 services:
   gitlab-runner:
     image: gitlab/gitlab-runner:alpine
-    restart: unless-stopped
     deploy:
       replicas: 1
       mode: replicated
+    entrypoint: ["/bin/sh", "/opt/runner.sh"]
     environment:
-      GROUP_ID: ${GROUP_ID}
-      ACCESS_TOKEN: ${ACCESS_TOKEN}
+      GROUP_ID: /run/secrets/group_id
+      ACCESS_TOKEN: /run/secrets/access_token
       TASK_NAME: '{{ .Task.Name }}'
+    secrets:
+      - group_id
+      - access_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - gitlab-runner-data:/etc/gitlab-runner
       - ./config/runner.sh:/opt/runner.sh
-    entrypoint: ["/bin/sh", "/opt/runner.sh"]
+
+secrets:
+  group_id:
+    external: true
+  access_token:
+    external: true
 
 volumes:
   gitlab-runner-data:

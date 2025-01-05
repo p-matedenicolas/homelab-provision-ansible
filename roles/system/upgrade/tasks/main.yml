@@ -16,4 +16,5 @@
     name:
       - python3-jsondiff
       - python3-yaml
+      - python3-docker
     state: present

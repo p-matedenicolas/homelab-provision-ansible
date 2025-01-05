@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# read secret values
+GROUP_ID=$(cat $GROUP_ID)
+ACCESS_TOKEN=$(cat $ACCESS_TOKEN)
+
 # add packages
 apk add curl jq
 

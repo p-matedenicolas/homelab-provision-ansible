@@ -1,4 +1,5 @@
 **/.env
+**/secrets.yaml
 
 # Created by https://www.toptal.com/developers/gitignore/api/linux,macos,ansible,windows,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=linux,macos,ansible,windows,visualstudiocode

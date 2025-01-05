@@ -13,12 +13,23 @@
     src: docker-compose/docker-compose.yaml
     dest: /opt/stacks/gitlab/docker-compose.yaml
 
-- name: copy gitlab env file
+- name: include secrets.yaml
   tags:
     - services_vcs_gitlab
-  ansible.builtin.copy:
-    src: docker-compose/.env
-    dest: /opt/stacks/gitlab/.env
+  ansible.builtin.include_vars:
+    file: secrets.yaml
+
+- name: create docker secrets
+  tags:
+    - services_vcs_gitlab
+  community.general.docker_secret:
+    name: "{{ secret.key }}"
+    data: "{{ secret.value }}"
+    state: present
+  with_dict: "{{ secrets }}"
+  loop_control:
+    loop_var: secret
+  no_log: true
 
 - name: copy gitlab config directory
   tags:
