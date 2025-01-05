@@ -3,7 +3,7 @@ services:
     image: gitlab/gitlab-runner:alpine
     restart: unless-stopped
     deploy:
-      replicas: 2
+      replicas: 1
       mode: replicated
     environment:
       GROUP_ID: ${GROUP_ID}

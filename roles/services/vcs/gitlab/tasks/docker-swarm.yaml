@@ -13,6 +13,13 @@
     src: docker-compose/docker-compose.yaml
     dest: /opt/stacks/gitlab/docker-compose.yaml
 
+- name: copy gitlab env file
+  tags:
+    - services_vcs_gitlab
+  ansible.builtin.copy:
+    src: docker-compose/.env
+    dest: /opt/stacks/gitlab/.env
+
 - name: copy gitlab config directory
   tags:
     - services_vcs_gitlab
